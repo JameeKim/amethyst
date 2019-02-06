@@ -1,3 +1,4 @@
+use derivative::Derivative;
 use gfx_glyph::Font;
 use serde::{Deserialize, Serialize};
 
@@ -56,9 +57,11 @@ impl SimpleFormat<FontAsset> for TtfFormat {
 }
 
 /// Wrapper format for all core supported Font formats
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, Derivative)]
+#[derivative(Default)]
 pub enum FontFormat {
     /// TTF Format
+    #[derivative(Default)]
     Ttf,
     /// OTF Format
     Otf,

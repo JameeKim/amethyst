@@ -13,6 +13,6 @@ Text(
         text: "N/A",
         font_size: 25.,
         color: (1., 1., 1., 1.),
-        font: File("font/square.ttf", Ttf, ()),
+        font: File(file: "font/square.ttf"),
     ),
 )

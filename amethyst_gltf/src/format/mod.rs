@@ -37,7 +37,7 @@ mod skin;
 /// as the root node of the scene hierarchy.
 ///
 /// See `GltfSceneOptions` for more information about the load options.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct GltfSceneFormat;
 
 impl Format<Prefab<GltfPrefab>> for GltfSceneFormat {

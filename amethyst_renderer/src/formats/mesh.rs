@@ -115,7 +115,7 @@ impl<'a> PrefabData<'a> for MeshData {
 
 /// Allows loading from Wavefront files
 /// see: https://en.wikipedia.org/wiki/Wavefront_.obj_file
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Default, Deserialize, Serialize)]
 pub struct ObjFormat;
 
 impl SimpleFormat<Mesh> for ObjFormat {

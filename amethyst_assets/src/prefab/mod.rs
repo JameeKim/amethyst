@@ -330,21 +330,33 @@ where
 pub enum AssetPrefab<A, F>
 where
     A: Asset,
-    F: Format<A>,
+    F: Format<A> + Default,
+    F::Options: Default,
 {
     /// From existing handle
     #[serde(skip)]
     Handle(Handle<A>),
 
     /// From file, (name, format, format options)
-    File(String, F, F::Options),
+    File {
+        /// File path and name
+        file: String,
+
+        /// Format
+        #[serde(default)]
+        format: F,
+
+        /// Format options
+        #[serde(default)]
+        options: F::Options,
+    },
 }
 
 impl<'a, A, F> PrefabData<'a> for AssetPrefab<A, F>
 where
     A: Asset,
-    F: Format<A> + Clone,
-    F::Options: Clone,
+    F: Format<A> + Default + Clone,
+    F::Options: Default + Clone,
 {
     type SystemData = (
         ReadExpect<'a, Loader>,
@@ -362,7 +374,7 @@ where
     ) -> Result<Handle<A>, Error> {
         let handle = match *self {
             AssetPrefab::Handle(ref handle) => handle.clone(),
-            AssetPrefab::File(..) => unreachable!(),
+            AssetPrefab::File { .. } => unreachable!(),
         };
         Ok(system_data
             .1
@@ -375,9 +387,14 @@ where
         progress: &mut ProgressCounter,
         system_data: &mut Self::SystemData,
     ) -> Result<bool, Error> {
-        let handle = if let AssetPrefab::File(ref name, ref format, ref options) = *self {
+        let handle = if let AssetPrefab::File {
+            ref file,
+            ref format,
+            ref options,
+        } = *self
+        {
             Some(system_data.0.load(
-                name.as_ref(),
+                file.as_ref(),
                 format.clone(),
                 options.clone(),
                 progress,
@@ -392,6 +409,109 @@ where
         } else {
             Ok(false)
         }
+    }
+}
+
+/// Convenience `PrefabData` for loading assets of type `A` using `Format` `F`.
+///
+/// This is a variation of `AssetPrefab` for assets which data are deserializable (or serializable).
+/// It enables the data to be put inline, rather than in a separate file.
+///
+/// ### Type parameters:
+///
+/// - `A`: `Asset`,
+/// - `F`: `Format` for loading `A`
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub enum AssetDataPrefab<A, F>
+where
+    A: Asset,
+    F: Format<A> + Default,
+    F::Options: Default,
+{
+    /// Variant with the asset data
+    ///
+    /// ### Note
+    /// **Only use `Some`**. `Option` type is just there to prevent cloning the asset data.
+    #[serde(bound(deserialize = "A::Data: for<'d> Deserialize<'d>"))]
+    #[serde(bound(serialize = "A::Data: Serialize"))]
+    Data(Option<A::Data>),
+
+    /// From file, (name, format, format options)
+    File {
+        /// File path and name
+        file: String,
+
+        /// Format
+        #[serde(default)]
+        format: F,
+
+        /// Format options
+        #[serde(default)]
+        options: F::Options,
+    },
+
+    /// From existing handle
+    #[serde(skip)]
+    Handle(Handle<A>),
+}
+
+impl<'a, A, F> PrefabData<'a> for AssetDataPrefab<A, F>
+where
+    A: Asset,
+    F: Format<A> + Default + Clone,
+    F::Options: Default + Clone,
+{
+    type SystemData = (
+        ReadExpect<'a, Loader>,
+        WriteStorage<'a, Handle<A>>,
+        Read<'a, AssetStorage<A>>,
+    );
+
+    type Result = Handle<A>;
+
+    fn add_to_entity(
+        &self,
+        entity: Entity,
+        system_data: &mut Self::SystemData,
+        _: &[Entity],
+    ) -> Result<Handle<A>, Error> {
+        let handle = match *self {
+            AssetDataPrefab::Handle(ref handle) => handle.clone(),
+            _ => unreachable!(),
+        };
+        system_data.1.insert(entity, handle.clone())?;
+        Ok(handle)
+    }
+
+    fn load_sub_assets(
+        &mut self,
+        progress: &mut ProgressCounter,
+        system_data: &mut Self::SystemData,
+    ) -> Result<bool, Error> {
+        let handle = match *self {
+            AssetDataPrefab::Data(ref mut data) => system_data.0.load_from_data(
+                data.take()
+                    .expect("The inner data of `AssetDataPrefab::Data` should not be `None`"),
+                progress,
+                &system_data.2,
+            ),
+            AssetDataPrefab::File {
+                ref file,
+                ref format,
+                ref options,
+            } => system_data.0.load(
+                file.as_ref(),
+                format.clone(),
+                options.clone(),
+                progress,
+                &system_data.2,
+            ),
+            AssetDataPrefab::Handle(_) => {
+                return Ok(false);
+            }
+        };
+        *self = AssetDataPrefab::Handle(handle);
+        Ok(true)
     }
 }
 

@@ -9,7 +9,7 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File("mesh/lid.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/lid.obj")),
                     material: (
                         albedo: Data(Rgba((1.0, 0.0, 0.0, 1.0,), (channel: Srgb,
                             sampler: (filter: Anisotropic(8), wrap_mode: (Clamp, Clamp, Clamp)),))),
@@ -24,7 +24,7 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File("mesh/teapot.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/teapot.obj")),
                     material: (
                         albedo: Data(Rgba((1.0, 0.0, 0.0, 1.0,), (channel: Srgb,
                             sampler: (filter: Anisotropic(8), wrap_mode: (Clamp, Clamp, Clamp)),))),
@@ -39,9 +39,13 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File("mesh/cube.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/cube.obj")),
                     material: (
-                        albedo: File("texture/logo.png", Png, (channel: Srgb),),
+                        albedo: File(
+                            file: "texture/logo.png",
+                            format: Png,
+                            options: (channel: Srgb),
+                        ),
                     ),
                 ),
                 transform: (
@@ -53,7 +57,7 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File("mesh/cone.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/cone.obj")),
                     material: (
                         albedo: Data(Rgba((1.0, 1.0, 1.0, 1.0,), (channel: Srgb),)),
                     ),
@@ -67,7 +71,7 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File("mesh/cube.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/cube.obj")),
                     material: (
                         albedo: Data(Rgba((1.0, 0.0, 0.0, 1.0,), (channel: Srgb),)),
                     ),
@@ -81,7 +85,7 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File("mesh/rectangle.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/rectangle.obj")),
                     material: (
                         albedo: Data(Rgba((1.0, 1.0, 1.0, 1.0,), (channel: Srgb),)),
                     ),

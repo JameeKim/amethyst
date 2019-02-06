@@ -1,3 +1,4 @@
+use derivative::Derivative;
 use gfx::{
     format::{ChannelType, SurfaceType, SurfaceTyped},
     texture::SamplerInfo,
@@ -49,6 +50,13 @@ pub struct TextureMetadata {
     /// This is usually `Srgb` for color textures, normalmaps & similar mostly use `Unorm`
     /// (which represents a value between `0.0` and `1.0`).
     pub channel: ChannelType,
+}
+
+impl Default for TextureMetadata {
+    #[inline]
+    fn default() -> TextureMetadata {
+        TextureMetadata::unorm()
+    }
 }
 
 impl TextureMetadata {
@@ -212,7 +220,18 @@ where
     Data(TextureData),
 
     /// Load file with format
-    File(String, F, TextureMetadata),
+    File {
+        /// File name
+        file: String,
+
+        /// Format
+        #[serde(default)]
+        format: F,
+
+        /// Format options
+        #[serde(default)]
+        options: TextureMetadata,
+    },
 
     /// Clone handle only
     #[serde(skip)]
@@ -240,7 +259,7 @@ where
                     .load_from_data(data.clone(), (), &system_data.1)
             }
 
-            TexturePrefab::File(..) => unreachable!(),
+            TexturePrefab::File { .. } => unreachable!(),
 
             TexturePrefab::Handle(ref handle) => handle.clone(),
         };
@@ -259,8 +278,12 @@ where
                 &system_data.1,
             )),
 
-            TexturePrefab::File(ref name, ref format, ref options) => Some(system_data.0.load(
-                name.as_ref(),
+            TexturePrefab::File {
+                ref file,
+                ref format,
+                ref options,
+            } => Some(system_data.0.load(
+                file.as_ref(),
                 format.clone(),
                 options.clone(),
                 progress,
@@ -492,9 +515,11 @@ fn create_texture_asset_from_image(
 }
 
 /// Aggregate texture format
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, Derivative)]
+#[derivative(Default)]
 pub enum TextureFormat {
     /// Jpeg
+    #[derivative(Default)]
     Jpg,
     /// Png
     Png,

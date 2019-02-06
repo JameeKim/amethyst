@@ -33,8 +33,8 @@ use crate::removal::Removal;
 #[serde(deny_unknown_fields)]
 pub struct BasicScenePrefab<V, R = (), M = ObjFormat>
 where
-    M: Format<Mesh> + Clone,
-    M::Options: DeserializeOwned + Serialize + Clone,
+    M: Format<Mesh> + Default + Clone,
+    M::Options: Default + DeserializeOwned + Serialize + Clone,
     R: PartialEq + Debug + Clone + Send + Sync + 'static,
     V: From<InternalShape> + Into<MeshData>,
 {
@@ -48,8 +48,8 @@ where
 
 impl<V, R, M> Default for BasicScenePrefab<V, R, M>
 where
-    M: Format<Mesh> + Clone,
-    M::Options: DeserializeOwned + Serialize + Clone,
+    M: Format<Mesh> + Default + Clone,
+    M::Options: Default + DeserializeOwned + Serialize + Clone,
     R: PartialEq + Debug + Clone + Send + Sync + 'static,
     V: From<InternalShape> + Into<MeshData>,
 {
