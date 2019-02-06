@@ -52,7 +52,11 @@ Container(
                 mouse_reactive: true,
             ),
             image: (
-                image: File("texture/logo_transparent.png", Png, (channel: Srgb)),
+                image: File(
+                    file: "texture/logo_transparent.png",
+                    format: Png,
+                    options: (channel: Srgb)
+                ),
             )
         ),
 
@@ -84,7 +88,7 @@ Container(
                     ),
                     text: (
                         text: "Editable",
-                        font: File("font/square.ttf", Ttf, ()),
+                        font: File(file: "font/square.ttf"),
                         font_size: 75.,
                         color: (0.2, 0.2, 1.0, 1.0),
                         align: MiddleRight,
@@ -109,7 +113,7 @@ Container(
             ),
             button: (
                 text: "ComplexBtn",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 20.,
                 normal_text_color: (0.2, 0.2, 1.0, 1.0),
                 hover_text_color: (0.4, 0.4, 1.0, 1.0),
@@ -117,8 +121,8 @@ Container(
                 normal_image: Data(Rgba((0., 1., 0., 1.), (channel: Srgb))),
                 hover_image: Data(Rgba((0.3, 1., 0.3, 1.), (channel: Srgb))),
                 press_image: Data(Rgba((0.15, 1., 0.15, 1.), (channel: Srgb))),
-                hover_sound: File("audio/boop.ogg", Ogg, ()),
-                press_sound: File("audio/confirm.ogg", Ogg, ()),
+                hover_sound: File(file: "audio/boop.ogg", format: Ogg),
+                press_sound: File(file: "audio/confirm.ogg", format: Ogg),
             )
         ),
 
@@ -136,7 +140,7 @@ Container(
             ),
             button: (
                 text: "SimpleBtn",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 20.,
                 normal_text_color: (0.0, 0.0, 0.0, 1.0),
                 normal_image: Data(Rgba((0.82, 0.83, 0.83, 1.0), (channel: Srgb))),
@@ -155,7 +159,7 @@ Container(
             ),
             text: (
                 text: "N/A",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 25.,
                 color: (0.498, 0.254, 0.937, 1.0),
             )
@@ -175,7 +179,7 @@ Container(
             ),
             text: (
                 text: "N/A",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 25.,
                 color: (1.0, 1.0, 1.0, 1.0),
             )
@@ -192,7 +196,7 @@ Container(
             ),
             text: (
                 text: "Multiline\nText!",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 30.,
                 color: (0.2, 0.2, 1.0, 1.0),
                 line_mode: Wrap,
@@ -229,7 +233,7 @@ Container(
             ),
             text: (
                 text: "TopLeft",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 75.,
                 color: (0.2, 0.2, 1.0, 1.0),
                 align: TopLeft, // ! relative to the transform specified, which only has a width of 800 and height of 175 !
@@ -246,7 +250,7 @@ Container(
             ),
             text: (
                 text: "Middle",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 75.,
                 color: (0.2, 0.2, 1.0, 1.0),
                 align: Middle,
@@ -263,7 +267,7 @@ Container(
             ),
             text: (
                 text: "BottomRight",
-                font: File("font/square.ttf", Ttf, ()),
+                font: File(file: "font/square.ttf"),
                 font_size: 75.,
                 color: (0.2, 0.2, 1.0, 1.0),
                 align: BottomRight,

@@ -1,6 +1,7 @@
 use amethyst_assets::*;
 use amethyst_error::Error;
 
+use derivative::Derivative;
 use serde::{Deserialize, Serialize};
 
 use super::Source as Audio;
@@ -64,9 +65,11 @@ impl SimpleFormat<Audio> for Mp3Format {
     }
 }
 /// Aggregate sound format
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, Derivative)]
+#[derivative(Default)]
 pub enum AudioFormat {
     /// Ogg
+    #[derivative(Default)]
     Ogg,
     /// Wav
     Wav,

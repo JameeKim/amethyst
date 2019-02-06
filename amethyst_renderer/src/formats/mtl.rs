@@ -20,7 +20,7 @@ use super::{Texture, TextureMetadata, TexturePrefab};
 #[serde(default)]
 pub struct MaterialPrefab<F>
 where
-    F: Format<Texture, Options = TextureMetadata>,
+    F: Format<Texture, Options = TextureMetadata> + Default,
 {
     /// Diffuse map.
     pub albedo: Option<TexturePrefab<F>>,
@@ -58,7 +58,7 @@ where
 
 impl<F> Default for MaterialPrefab<F>
 where
-    F: Format<Texture, Options = TextureMetadata>,
+    F: Format<Texture, Options = TextureMetadata> + Default,
 {
     fn default() -> Self {
         MaterialPrefab {
@@ -89,7 +89,7 @@ fn load_handle<F>(
     def: &Handle<Texture>,
 ) -> Handle<Texture>
 where
-    F: Format<Texture, Options = TextureMetadata> + Sync + Clone,
+    F: Format<Texture, Options = TextureMetadata> + Default + Sync + Clone,
 {
     prefab
         .as_ref()
@@ -99,7 +99,7 @@ where
 
 impl<'a, F> PrefabData<'a> for MaterialPrefab<F>
 where
-    F: Format<Texture, Options = TextureMetadata> + Sync + Clone,
+    F: Format<Texture, Options = TextureMetadata> + Default + Sync + Clone,
 {
     type SystemData = (
         WriteStorage<'a, Material>,

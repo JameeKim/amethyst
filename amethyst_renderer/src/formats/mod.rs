@@ -28,8 +28,8 @@ mod texture;
 #[derive(Deserialize, Serialize)]
 pub enum MeshPrefab<V, M>
 where
-    M: Format<Mesh>,
-    M::Options: DeserializeOwned + Serialize,
+    M: Format<Mesh> + Default,
+    M::Options: Default + DeserializeOwned + Serialize,
 {
     /// Load an asset Mesh from file
     Asset(AssetPrefab<Mesh, M>),
@@ -51,9 +51,9 @@ where
 #[derive(Deserialize, Serialize)]
 pub struct GraphicsPrefab<V, M = ObjFormat, T = TextureFormat>
 where
-    M: Format<Mesh>,
-    M::Options: DeserializeOwned + Serialize,
-    T: Format<Texture, Options = TextureMetadata>,
+    M: Format<Mesh> + Default,
+    M::Options: Default + DeserializeOwned + Serialize,
+    T: Format<Texture, Options = TextureMetadata> + Default,
 {
     mesh: MeshPrefab<V, M>,
     material: MaterialPrefab<T>,
@@ -61,9 +61,9 @@ where
 
 impl<'a, V, M, T> PrefabData<'a> for GraphicsPrefab<V, M, T>
 where
-    M: Format<Mesh> + Clone,
-    M::Options: Clone + DeserializeOwned + Serialize,
-    T: Format<Texture, Options = TextureMetadata> + Sync + Clone,
+    M: Format<Mesh> + Default + Clone,
+    M::Options: Default + Clone + DeserializeOwned + Serialize,
+    T: Format<Texture, Options = TextureMetadata> + Default + Sync + Clone,
     V: From<InternalShape> + Into<MeshData>,
 {
     type SystemData = (

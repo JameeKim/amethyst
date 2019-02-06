@@ -4,7 +4,7 @@ Prefab (
         (
             data: (
                 graphics: (
-                    mesh: Asset(File ("mesh/cube.obj", ObjFormat, ())),
+                    mesh: Asset(File(file: "mesh/cube.obj")),
                     material: (
                         albedo: Data(Rgba((0.0, 0.0, 1.0, 1.0,), (channel: Srgb))),
                     ),
@@ -16,7 +16,7 @@ Prefab (
             ),
         ),
         (
-            data: ( 
+            data: (
                 transform: Transform (
                     translation: (5.0, -20.0, 15.0),
                 ),
