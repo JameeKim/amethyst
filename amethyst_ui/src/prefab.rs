@@ -333,6 +333,13 @@ impl<'a> PrefabData<'a> for UiTextData {
 #[serde(transparent)]
 pub struct UiImagePrefab(UiImageLoadPrefab);
 
+impl UiImagePrefab {
+    /// Wrap an [`UiImageLoadPrefab`] struct into `UiImagePrefab`
+    pub fn new(load_prefab: UiImageLoadPrefab) -> Self {
+        UiImagePrefab(load_prefab)
+    }
+}
+
 /// Loadable `UiImage` data. Returns image component from `add_to_entity` instead of adding it.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename = "UiImagePrefab")]
