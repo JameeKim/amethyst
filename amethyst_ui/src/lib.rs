@@ -30,9 +30,9 @@ pub use self::{
     layout::{Anchor, ScaleMode, Stretch, UiTransformSystem, UiTransformSystemDesc},
     pass::{DrawUi, DrawUiDesc, RenderUi},
     prefab::{
-        NoCustomUi, ToNativeWidget, UiButtonData, UiCreator, UiFormat, UiImageLoadPrefab,
-        UiImagePrefab, UiLoader, UiLoaderSystem, UiLoaderSystemDesc, UiPrefab, UiTextData,
-        UiTransformData, UiWidget,
+        walk_ui_tree, NoCustomUi, ToNativeWidget, UiButtonData, UiCreator, UiFormat,
+        UiImageLoadPrefab, UiImagePrefab, UiLoader, UiLoaderSystem, UiLoaderSystemDesc, UiPrefab,
+        UiTextData, UiTransformData, UiWidget,
     },
     resize::{ResizeSystem, ResizeSystemDesc, UiResize},
     selection::{

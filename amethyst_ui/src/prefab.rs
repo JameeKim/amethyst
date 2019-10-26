@@ -881,7 +881,7 @@ where
     }
 }
 
-fn walk_ui_tree<C, W>(
+pub fn walk_ui_tree<C, W>(
     widget: UiWidget<C, W>,
     current_index: usize,
     prefab: &mut Prefab<UiPrefabData<C::PrefabData, W>>,
